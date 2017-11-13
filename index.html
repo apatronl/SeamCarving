@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>
+Project 2
+</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+<h1>
+</h1>
+
+<h1 align="center">
+    Project 2: Seam Carving
+</h1>
+
+<h2 align="center">
+    By Alejandrina Patron Lopez
+</h2>
+
+<p>
+    Seam carving is an algorithm used for "content-aware image resizing," as described by
+    <a class="link" href="http://perso.crans.org/frenoy/matlab2012/seamcarving.pdf">Shai Avidan and Ariel Shamir.</a>
+     It follows a series of steps that can be repeated to reduce an image's width or height. I was motivated to do this project
+     because I wanted to learn how an image resizing algorithm worked, especially one that considers the importance of
+     pixels in an image. The algorithm for reducing an image's width is the following:
+</p>
+
+<h2>
+Step 1: Energy Map
+</h2>
+
+
+In order to crop an image using a “content aware” process, we need to remove pixels with “low energy” and keep pixels with “high energy.”
+To construct the energy map of an image, the following energy function must be computed: e(I) = |dI/dx| + |dI/dy|. This energy function is
+essentially adding the absolute values of the image’s derivative at x and at y.
+
+<p>
+<img src="img/energyMap.jpg" width="250" height="333" alt="Image Energy"/>
+</p>
+
+<h2>
+Step 2: Accumulated Cost Matrix
+</h2>
+
+In order to find the pixels with less importance in the image, we need to construct an accumulated cost matrix of the energy map obtained in the last step. This can be achieved with the following formula:
+M(i, j) = e(i, j) + min(M(i -1, j-1), M(i-1, j), M(i-1,j+1)).
+
+
+<p>
+<img src="img/costMatrix.jpg" width="250" height="333" alt="Image Energy"/>
+</p>
+
+<h2>
+Step 3: Minimum Seam
+</h2>
+
+The minimum seam is obtained by iterating from the bottom row to the top row of the accumulated cost matrix.
+We first start by finding the smallest pixel in the last row of the matrix, which will indicate the end of the
+minimum seam. After this, we repeat the process for every row up to the top, making sure each pixel in the seam is a neighbor of the pixel below it. The coordinates of each pixel in the seam are recorded so they can be removed
+from the original image in the next step.
+<p>
+<img src="img/seam.jpg" width="250" height="333" alt="Low cost seam"/>
+</p>
+<h2>
+Step 4: Remove Seam
+</h2>
+In this last step, the pixels at the minimum seam coordinates obtained in step 3 are removed from the original image.
+<p>
+</p>
+Steps 1 through 4 can be repeated to remove the desired amount of pixels from the image.
+<p>
+</p>
+<a class="link" href="seamCarving.py">Click here to see the code.</a>
+<h1>
+</h1>
+
+<h2>
+</h2>
+<p>
+    Here is some example output that I got reducing each image's width by 100 pixels (photos taken by me):
+</p>
+
+<h1>
+</h1>
+
+<table align="center">
+    <tr>
+        <td> Input </td>
+        <td> Output </td>
+    </tr>
+
+    <tr>
+        <td><img src="img/balloon.jpg" alt="Hot Air Balloon Ride"/> </td>
+        <td><img src="img/balloonOut.jpg" alt="Hot Air Balloon Ride"/> </td>
+    </tr>
+
+    <tr>
+        <td><p></p> </td>
+    </tr>
+
+    <tr>
+        <td><img src="img/sunflowers.jpg" alt="GT View"/> </td>
+        <td><img src="img/sunflowersOut.jpg" alt="GT View"/> </td>
+    </tr>
+
+    <tr>
+        <td><p></p> </td>
+    </tr>
+
+    <tr>
+        <td><img src="img/venice.jpg" alt="Nutella Waffle"/> </td>
+        <td><img src="img/veniceOut.jpg" alt="Nutella Waffle"/> </td>
+    </tr>
+
+    <tr>
+        <td><p></p> </td>
+    </tr>
+
+    <tr>
+        <td><img src="img/beach.jpg" alt="Sagrada Familia"/> </td>
+        <td><img src="img/beachOut.jpg" alt="Sagrada Familia"/> </td>
+    </tr>
+
+    <tr>
+        <td><p></p> </td>
+    </tr>
+
+    <tr>
+        <td><img src="img/butterflies.jpg" alt="Butteflies at CCCB"/> </td>
+        <td><img src="img/butterfliesOut.jpg" alt="Butteflies at CCCB"/> </td>
+    </tr>
+</table>
+
+    <h1>
+    </h1>
+
+</body>
+</html>
